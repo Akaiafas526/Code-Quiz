@@ -1,0 +1,18 @@
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+    margin: 10px;
+    font-weight: 600;
+    height: 10vh;
+}
+
+#quiz-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+
