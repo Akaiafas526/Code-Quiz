@@ -46,9 +46,9 @@ let data = [
             'Seven',
             'Two',
         ],
-        answer: [
+        answer:
             'Six'
-        ]
+
     }
 ]
 
@@ -60,6 +60,7 @@ let timer = document.createElement("h3");
 let secondsLeft = 60;
 let quizIndex = 0;
 let userScore = 0;
+let intervalId
 
 startButton.addEventListener("click", function (event) {
     startButton.setAttribute("style", "display: none");
@@ -72,15 +73,16 @@ startButton.addEventListener("click", function (event) {
 })
 
 function startTimer() {
-    setInterval(() => {
+    intervalId = setInterval(() => {
         secondsLeft--;
         timer.textContent = secondsLeft;
+        if (secondsLeft <= 0) {
+            clearInterval(intervalId)
+        }
     }, 1000);
-      
-    if (secondsLeft === 0) {
-        clearInterval(secondsLeft)
-    }
-    
+
+
+
 }
 
 function nextQuestion() {
@@ -104,11 +106,10 @@ function nextQuestion() {
             let selection = event.target.textContent;
             console.log(selection)
             if (selection === data[quizIndex].answer) {
-                console.log("Correct")
-                selection.textContent = 'Correct'
+                console.log('Correct!')
                 userScore++;
             } else {
-                console.log("Shame on you!")
+                selection.textContent = "Wrong!"
                 secondsLeft -= 10;
             }
 
@@ -128,8 +129,9 @@ function nextQuestion() {
 }
 
 function endGame() {
+    clearInterval(intervalId)
     timer.remove();
-    
+
     let finalScore = document.createElement("p");
     finalScore.textContent = userScore;
 
@@ -145,6 +147,11 @@ function endGame() {
     })
 }
 
+
 function setInitials() {
-    //? DO SOMETHING WITH LOCAL STORAGE HERE
-}
+    let initials = []
+    localStorage.setItem('initials',JSON.stringify(initials))
+    JSON.parse (localStorage.getItem ('initials'))
+    initials.push ({name: 'Andreas'})
+
+}   
