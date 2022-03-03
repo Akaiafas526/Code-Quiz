@@ -27,20 +27,28 @@ let data = [
     answer: "Six",
   },
 ];
-
 let startButton = document.getElementById("start-btn");
 let quizContent = document.getElementById("quiz-content");
-// let stopFunction = document.querySelector()
+let scoreText = document.getElementById('previous-scores');
 
 let timer = document.createElement("h3");
-let secondsLeft = 60;
-let quizIndex = 0;
-let userScore = 0;
+let secondsLeft;
+let quizIndex;
+let userScore;
 let intervalId;
+
+
+let previousScore = JSON.parse(localStorage.getItem('prevScore'))
+
+if (previousScore) {
+    scoreText.textContent = `${previousScore[0]}'s previous score: ${previousScore[1]}`
+}
 
 startButton.addEventListener("click", function (event) {
   startButton.setAttribute("style", "display: none");
-
+secondsLeft= 60;
+quizIndex= 0;
+userScore= 0;
   timer.textContent = secondsLeft;
   quizContent.append(timer);
 
@@ -133,28 +141,17 @@ function setInitials(finalScore) {
   initialSubmit.addEventListener("click", function (event) {
     initials = userInitials.value;
 
-    localStorage.setItem("initials", JSON.stringify(initials));
+    localStorage.setItem("prevScore", JSON.stringify([initials,userScore]));
 
     newDiv.remove();
     startButton.setAttribute("style", "display: block");
+    let previousScore = JSON.parse(localStorage.getItem('prevScore'))
 
-    // let newButton = document.createElement("button");
-    // newButton.textContent = 'Start Quiz';
+if (previousScore) {
+    scoreText.textContent = `${previousScore[0]}'s previous score: ${previousScore[1]}`
+}
 
-    // newButton.addEventListener("click", function (event) {
-    //   newButton.setAttribute("style", "display: none");
       finalScore.remove();
-    //   timer = document.createElement("h3");
-    //   secondsLeft = 60;
-    //   quizIndex = 0;
-    //   userScore = 0;
-    //   timer.textContent = secondsLeft;
-    //   quizContent.append(timer);
-
-    //   startTimer();
-    //   nextQuestion();
-    // });
-    // quizContent.append(newButton);
   });
 }
-//   JSON.parse(localStorage.getItem("initials"));
+
