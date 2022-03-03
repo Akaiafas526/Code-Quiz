@@ -1,10 +1,4 @@
-// When start button is clicked, remove timer and diplay question 1
-
-// start btn needs event listener
-// hide start btn
-// create element to show timer and then append that element to the div container
-// same thing for question 1
-
+// Array of questions
 let data = [
   {
     question: "What sport wears shin guards?",
@@ -27,9 +21,11 @@ let data = [
     answer: "Six",
   },
 ];
+
+// Global Variables
 let startButton = document.getElementById("start-btn");
 let quizContent = document.getElementById("quiz-content");
-let scoreText = document.getElementById('previous-scores');
+let scoreText = document.getElementById("previous-scores");
 
 let timer = document.createElement("h3");
 let secondsLeft;
@@ -37,18 +33,19 @@ let quizIndex;
 let userScore;
 let intervalId;
 
-
-let previousScore = JSON.parse(localStorage.getItem('prevScore'))
-
+// local storage
+let previousScore = JSON.parse(localStorage.getItem("prevScore"));
+//
 if (previousScore) {
-    scoreText.textContent = `${previousScore[0]}'s previous score: ${previousScore[1]}`
+  scoreText.textContent = `${previousScore[0]}'s previous score: ${previousScore[1]}`;
 }
 
+// Quiz start button event
 startButton.addEventListener("click", function (event) {
   startButton.setAttribute("style", "display: none");
-secondsLeft= 60;
-quizIndex= 0;
-userScore= 0;
+  secondsLeft = 60;
+  quizIndex = 0;
+  userScore = 0;
   timer.textContent = secondsLeft;
   quizContent.append(timer);
 
@@ -56,6 +53,7 @@ userScore= 0;
   nextQuestion();
 });
 
+// Function which initiates timer
 function startTimer() {
   intervalId = setInterval(() => {
     secondsLeft--;
@@ -66,6 +64,7 @@ function startTimer() {
   }, 1000);
 }
 
+// Function for question index
 function nextQuestion() {
   let newDiv = document.createElement("div");
   newDiv.innerHTML = `<h3>${data[quizIndex].question}</h3>
@@ -109,6 +108,7 @@ function nextQuestion() {
   }
 }
 
+// End game function
 function endGame() {
   clearInterval(intervalId);
   timer.remove();
@@ -128,6 +128,7 @@ function endGame() {
   });
 }
 
+// Function allows users to add initials and save previous score
 function setInitials(finalScore) {
   let initials = "";
   let newDiv = document.createElement("div");
@@ -141,17 +142,16 @@ function setInitials(finalScore) {
   initialSubmit.addEventListener("click", function (event) {
     initials = userInitials.value;
 
-    localStorage.setItem("prevScore", JSON.stringify([initials,userScore]));
+    localStorage.setItem("prevScore", JSON.stringify([initials, userScore]));
 
     newDiv.remove();
     startButton.setAttribute("style", "display: block");
-    let previousScore = JSON.parse(localStorage.getItem('prevScore'))
+    let previousScore = JSON.parse(localStorage.getItem("prevScore"));
 
-if (previousScore) {
-    scoreText.textContent = `${previousScore[0]}'s previous score: ${previousScore[1]}`
-}
+    if (previousScore) {
+      scoreText.textContent = `${previousScore[0]}'s previous score: ${previousScore[1]}`;
+    }
 
-      finalScore.remove();
+    finalScore.remove();
   });
 }
-
